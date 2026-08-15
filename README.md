@@ -2,6 +2,8 @@
 
 为零基础长辈准备的中文初中数学学习网站。从小学基础补起，按照“启蒙补基础 → 七年级 → 八年级 → 九年级”的顺序学习。
 
+公开网站：[https://icemapletree-cmd.github.io/tainai-junior-math/](https://icemapletree-cmd.github.io/tainai-junior-math/)
+
 ## 课程内容
 
 - 36 个单元、113 小课

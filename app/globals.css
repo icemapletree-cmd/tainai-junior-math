@@ -1,0 +1,1361 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #283128;
+  --muted: #667064;
+  --paper: #f7f3e8;
+  --paper-deep: #efe8d6;
+  --card: #fffdf7;
+  --line: #ded8c8;
+  --green: #28634f;
+  --green-dark: #1d4a3b;
+  --green-soft: #dfece4;
+  --orange: #c86a3a;
+  --orange-soft: #f5e1d3;
+  --blue: #476c89;
+  --blue-soft: #dfe9f0;
+  --plum: #72536f;
+  --plum-soft: #ebe0e9;
+  --yellow: #f4dfa0;
+  --shadow: 0 14px 36px rgba(66, 58, 38, 0.09);
+  --font-scale: 1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: 3px solid #d49b36;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  left: 16px;
+  top: -60px;
+  padding: 10px 16px;
+  color: white;
+  background: var(--green-dark);
+  border-radius: 8px;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.site-shell {
+  min-height: 100vh;
+  font-size: calc(17px * var(--font-scale));
+}
+
+.topbar {
+  position: sticky;
+  z-index: 30;
+  top: 0;
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: rgba(255, 253, 247, 0.96);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.brand-seal {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  color: #fffdf7;
+  background: var(--green);
+  border-radius: 50% 46% 52% 48%;
+  font: 700 24px/1 "STKaiti", "KaiTi", serif;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.28);
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-family: "STKaiti", "KaiTi", "Songti SC", serif;
+  font-size: 1.28em;
+  letter-spacing: 0.06em;
+}
+
+.brand small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.68em;
+  letter-spacing: 0.08em;
+}
+
+.topbar-actions,
+.font-controls {
+  display: flex;
+  align-items: center;
+}
+
+.topbar-actions {
+  gap: 12px;
+}
+
+.font-controls {
+  gap: 4px;
+  padding: 5px 6px 5px 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.82em;
+}
+
+.font-controls button,
+.print-button {
+  border: 0;
+  cursor: pointer;
+}
+
+.font-controls button {
+  min-width: 34px;
+  min-height: 34px;
+  color: var(--ink);
+  background: var(--paper);
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.font-controls button:hover {
+  background: var(--green-soft);
+}
+
+.print-button {
+  min-height: 42px;
+  padding: 0 16px;
+  color: var(--green-dark);
+  background: transparent;
+  border: 1px solid var(--green);
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.menu-button {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.body-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: calc(100vh - 78px);
+}
+
+.sidebar {
+  position: sticky;
+  top: 78px;
+  z-index: 20;
+  height: calc(100vh - 78px);
+  padding: 24px 18px 32px;
+  overflow-y: auto;
+  background: #f0eadb;
+  border-right: 1px solid var(--line);
+  scrollbar-width: thin;
+  scrollbar-color: #bdb6a5 transparent;
+}
+
+.mobile-menu-head {
+  display: none;
+}
+
+.search-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.search-wrap > label {
+  display: block;
+  margin: 0 0 7px 4px;
+  color: var(--muted);
+  font-size: 0.76em;
+  font-weight: 700;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  gap: 8px;
+  padding: 0 10px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.search-box > span {
+  color: var(--green);
+  font-size: 1.3em;
+  transform: rotate(-18deg);
+}
+
+.search-box input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.88em;
+}
+
+.search-box input::placeholder {
+  color: #999587;
+}
+
+.search-box button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.search-results {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 7px);
+  left: 0;
+  right: 0;
+  max-height: 390px;
+  padding: 8px;
+  overflow-y: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.search-results > p {
+  margin: 5px 8px 7px;
+  color: var(--muted);
+  font-size: 0.72em;
+}
+
+.search-results button {
+  display: block;
+  width: 100%;
+  padding: 9px 8px;
+  border: 0;
+  background: transparent;
+  border-radius: 7px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.search-results button:hover {
+  background: var(--green-soft);
+}
+
+.search-results button span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--green);
+  font-size: 0.68em;
+}
+
+.empty-search {
+  padding: 20px 10px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.82em;
+}
+
+.home-link {
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  border-radius: 9px;
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.home-link span {
+  color: var(--green);
+  font-size: 1.2em;
+}
+
+.home-link.active,
+.home-link:hover {
+  background: rgba(255, 253, 247, 0.8);
+}
+
+.course-nav {
+  margin-top: 10px;
+}
+
+.course-nav details {
+  margin: 4px 0;
+}
+
+.course-nav summary {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  min-height: 46px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 9px;
+  border-radius: 8px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.course-nav summary::-webkit-details-marker {
+  display: none;
+}
+
+.course-nav summary:hover {
+  background: rgba(255, 253, 247, 0.62);
+}
+
+.course-nav summary strong {
+  font-size: 0.9em;
+}
+
+.course-nav summary small {
+  color: var(--muted);
+  font-size: 0.68em;
+}
+
+.stage-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--green);
+  border-radius: 50%;
+}
+
+.stage-dot.grade-seven { background: var(--orange); }
+.stage-dot.grade-eight { background: var(--blue); }
+.stage-dot.grade-nine { background: var(--plum); }
+
+.unit-group {
+  margin: 1px 0 8px 18px;
+  padding-left: 12px;
+  border-left: 1px solid #cfc7b5;
+}
+
+.unit-group > p {
+  margin: 9px 0 5px 8px;
+  color: var(--muted);
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.unit-group button {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  width: 100%;
+  min-height: 36px;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border: 0;
+  color: #535b52;
+  background: transparent;
+  border-radius: 7px;
+  text-align: left;
+  font-size: 0.76em;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.unit-group button:hover,
+.unit-group button.active {
+  color: var(--green-dark);
+  background: var(--card);
+}
+
+.unit-group button.active {
+  font-weight: 700;
+  box-shadow: inset 3px 0 var(--green);
+}
+
+.lesson-done,
+.lesson-undone {
+  display: grid;
+  width: 15px;
+  height: 15px;
+  place-items: center;
+  border: 1px solid #aaa595;
+  border-radius: 50%;
+  font-size: 10px;
+}
+
+.lesson-done {
+  color: white;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.sidebar-note {
+  margin: 24px 4px 0;
+  padding: 15px;
+  color: #4f5c50;
+  background: rgba(255, 253, 247, 0.7);
+  border: 1px dashed #bcb4a2;
+  border-radius: 10px;
+}
+
+.sidebar-note strong {
+  font: 700 1em/1.2 "STKaiti", "KaiTi", serif;
+}
+
+.sidebar-note p {
+  margin: 6px 0 0;
+  font-size: 0.72em;
+  line-height: 1.65;
+}
+
+.main-content {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 46px 52px 72px;
+}
+
+.welcome-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  min-height: 355px;
+  align-items: center;
+  gap: 36px;
+  padding: 58px 66px;
+  overflow: hidden;
+  background: var(--green-dark);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  color: #fffdf5;
+}
+
+.welcome-card::before,
+.welcome-card::after {
+  position: absolute;
+  content: "";
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+}
+
+.welcome-card::before {
+  width: 340px;
+  height: 340px;
+  top: -170px;
+  right: -90px;
+}
+
+.welcome-card::after {
+  width: 190px;
+  height: 190px;
+  right: 130px;
+  bottom: -130px;
+}
+
+.welcome-copy,
+.welcome-progress {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow,
+.section-kicker,
+.lesson-label,
+.small-label {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #cfe3d8;
+  font-size: 0.78em;
+}
+
+.welcome-card h1 {
+  margin: 0;
+  font: 700 3.35em/1.08 "STKaiti", "KaiTi", "Songti SC", serif;
+  letter-spacing: 0.05em;
+}
+
+.welcome-lead {
+  max-width: 620px;
+  margin: 22px 0 30px;
+  color: #ecf4ee;
+  font-size: 1.06em;
+  line-height: 1.9;
+}
+
+.primary-button {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  border: 0;
+  color: var(--green-dark);
+  background: var(--yellow);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(12, 38, 29, 0.2);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #f8e8b3;
+  transform: translateY(-1px);
+}
+
+.primary-button:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.welcome-progress {
+  display: grid;
+  justify-items: center;
+}
+
+.progress-ring {
+  display: grid;
+  width: 158px;
+  height: 158px;
+  place-items: center;
+  background: conic-gradient(var(--yellow) var(--progress), rgba(255, 255, 255, 0.15) 0);
+  border-radius: 50%;
+}
+
+.progress-ring > div {
+  display: grid;
+  width: 128px;
+  height: 128px;
+  place-items: center;
+  align-content: center;
+  background: var(--green-dark);
+  border-radius: 50%;
+}
+
+.progress-ring strong,
+.progress-ring span {
+  display: block;
+}
+
+.progress-ring strong {
+  font-size: 2em;
+}
+
+.progress-ring span {
+  margin-top: 3px;
+  color: #cfe3d8;
+  font-size: 0.72em;
+}
+
+.welcome-progress > p {
+  margin: 14px 0 0;
+  color: #cfe3d8;
+  font-size: 0.78em;
+}
+
+.section-heading {
+  margin-bottom: 24px;
+}
+
+.section-heading h2 {
+  margin: 4px 0 8px;
+  font: 700 2em/1.25 "STKaiti", "KaiTi", "Songti SC", serif;
+}
+
+.section-heading > p:last-child {
+  max-width: 660px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.section-kicker {
+  margin: 0;
+  color: var(--green);
+  font-size: 0.75em;
+}
+
+.how-to,
+.roadmap {
+  padding-top: 66px;
+}
+
+.learning-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.learning-steps li {
+  min-height: 180px;
+  padding: 22px 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+}
+
+.learning-steps li > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 17px;
+  place-items: center;
+  color: var(--green-dark);
+  background: var(--green-soft);
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.learning-steps strong {
+  font: 700 1.2em/1.2 "STKaiti", "KaiTi", serif;
+}
+
+.learning-steps p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.82em;
+  line-height: 1.75;
+}
+
+.stage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 13px;
+}
+
+.stage-card {
+  position: relative;
+  padding: 25px 22px 21px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--green);
+  border-radius: 15px;
+}
+
+.stage-card.grade-seven { border-top-color: var(--orange); }
+.stage-card.grade-eight { border-top-color: var(--blue); }
+.stage-card.grade-nine { border-top-color: var(--plum); }
+
+.stage-number {
+  color: var(--green);
+  font-size: 0.72em;
+  font-weight: 800;
+}
+
+.grade-seven .stage-number { color: var(--orange); }
+.grade-eight .stage-number { color: var(--blue); }
+.grade-nine .stage-number { color: var(--plum); }
+
+.stage-card h3 {
+  margin: 8px 0 7px;
+  font: 700 1.48em/1.2 "STKaiti", "KaiTi", serif;
+}
+
+.stage-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.76em;
+}
+
+.mini-progress {
+  height: 7px;
+  margin: 24px 0 8px;
+  overflow: hidden;
+  background: var(--paper-deep);
+  border-radius: 999px;
+}
+
+.mini-progress span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: inherit;
+}
+
+.grade-seven .mini-progress span { background: var(--orange); }
+.grade-eight .mini-progress span { background: var(--blue); }
+.grade-nine .mini-progress span { background: var(--plum); }
+
+.done-count {
+  margin-bottom: 20px !important;
+}
+
+.stage-card button {
+  padding: 0;
+  border: 0;
+  color: var(--green-dark);
+  background: transparent;
+  font-size: 0.78em;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.reassurance {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 66px;
+  padding: 26px 32px;
+  background: #f4e6d2;
+  border: 1px solid #e1cba9;
+  border-radius: 16px;
+}
+
+.reassurance > span {
+  display: grid;
+  min-width: 56px;
+  height: 56px;
+  place-items: center;
+  color: var(--orange);
+  background: var(--card);
+  border-radius: 50%;
+  font-size: 1.65em;
+}
+
+.reassurance h2 {
+  margin: 0 0 5px;
+  font: 700 1.3em/1.2 "STKaiti", "KaiTi", serif;
+}
+
+.reassurance p {
+  margin: 0;
+  color: #69604f;
+  font-size: 0.85em;
+  line-height: 1.7;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 0.75em;
+}
+
+.crumbs button {
+  padding: 0;
+  border: 0;
+  color: var(--green);
+  background: transparent;
+  cursor: pointer;
+}
+
+.lesson-hero {
+  display: grid;
+  grid-template-columns: 1fr 110px;
+  align-items: center;
+  gap: 30px;
+  padding: 43px 50px;
+  background: var(--green-soft);
+  border: 1px solid #c4d9ca;
+  border-radius: 20px;
+}
+
+.lesson-hero.grade-seven {
+  background: var(--orange-soft);
+  border-color: #e6c7b5;
+}
+
+.lesson-hero.grade-eight {
+  background: var(--blue-soft);
+  border-color: #c3d5e1;
+}
+
+.lesson-hero.grade-nine {
+  background: var(--plum-soft);
+  border-color: #d7c5d4;
+}
+
+.lesson-label {
+  margin: 0 0 10px;
+  color: var(--green);
+  font-size: 0.72em;
+}
+
+.grade-seven .lesson-label { color: #9d4e28; }
+.grade-eight .lesson-label { color: #3d617e; }
+.grade-nine .lesson-label { color: #654761; }
+
+.lesson-hero h1 {
+  margin: 0;
+  font: 700 2.55em/1.22 "STKaiti", "KaiTi", "Songti SC", serif;
+}
+
+.lesson-hero p:last-child {
+  max-width: 720px;
+  margin: 15px 0 0;
+  color: #4f5b50;
+  line-height: 1.85;
+}
+
+.lesson-mark {
+  display: grid;
+  width: 92px;
+  height: 92px;
+  place-items: center;
+  justify-self: end;
+  color: var(--green);
+  background: rgba(255, 253, 247, 0.66);
+  border: 1px solid rgba(40, 99, 79, 0.25);
+  border-radius: 50%;
+  font: 700 2.1em/1 "STKaiti", "KaiTi", serif;
+}
+
+.lesson-section {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 22px;
+  padding-top: 52px;
+}
+
+.section-icon {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  color: var(--green-dark);
+  background: var(--green-soft);
+  border-radius: 14px;
+  font: 700 1.15em/1 "STKaiti", "KaiTi", serif;
+}
+
+.example-icon {
+  color: #8a481f;
+  background: var(--orange-soft);
+}
+
+.practice-icon {
+  color: #3a5b77;
+  background: var(--blue-soft);
+}
+
+.lesson-section-body {
+  min-width: 0;
+}
+
+.lesson-section h2 {
+  margin: 7px 0 22px;
+  font: 700 1.72em/1.2 "STKaiti", "KaiTi", "Songti SC", serif;
+}
+
+.idea-list {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.idea-list li {
+  position: relative;
+  padding: 15px 18px 15px 48px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  line-height: 1.85;
+}
+
+.idea-list li::before {
+  position: absolute;
+  left: 18px;
+  top: 17px;
+  content: "✓";
+  color: var(--green);
+  font-weight: 900;
+}
+
+.tip-box {
+  margin-top: 16px;
+  padding: 16px 19px;
+  color: #60562d;
+  background: #fbf1ca;
+  border-left: 4px solid #d9b94d;
+  border-radius: 5px 10px 10px 5px;
+  line-height: 1.75;
+}
+
+.example-card {
+  margin-bottom: 20px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(66, 58, 38, 0.055);
+}
+
+.question-line {
+  padding: 20px 24px;
+  background: #f7eee6;
+  border-bottom: 1px solid #ead9cc;
+}
+
+.question-line > span {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 9px;
+  color: #8f4925;
+  background: var(--orange-soft);
+  border-radius: 999px;
+  font-size: 0.7em;
+  font-weight: 800;
+}
+
+.question-line p {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.75;
+}
+
+.worked-steps {
+  padding: 22px 24px 10px;
+}
+
+.small-label {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.7em;
+}
+
+.worked-steps ol {
+  display: grid;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.worked-steps li {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 11px;
+  align-items: start;
+}
+
+.worked-steps li > span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--green-dark);
+  background: var(--green-soft);
+  border-radius: 50%;
+  font-size: 0.75em;
+  font-weight: 800;
+}
+
+.worked-steps li p {
+  margin: 1px 0 0;
+  line-height: 1.8;
+}
+
+.example-answer {
+  margin: 10px 24px 23px;
+  padding: 13px 16px;
+  color: var(--green-dark);
+  background: var(--green-soft);
+  border-radius: 8px;
+  line-height: 1.75;
+}
+
+.practice-note {
+  margin: -12px 0 18px;
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+.practice-list {
+  display: grid;
+  gap: 14px;
+}
+
+.practice-card {
+  padding: 21px 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 13px;
+}
+
+.practice-question {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.practice-question > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  color: #fff;
+  background: var(--blue);
+  border-radius: 9px;
+  font-weight: 800;
+}
+
+.practice-question p {
+  margin: 3px 0 15px;
+  font-weight: 700;
+  line-height: 1.75;
+}
+
+.practice-card details {
+  margin: 8px 0 0 46px;
+  padding: 10px 13px;
+  background: var(--paper);
+  border-radius: 7px;
+}
+
+.practice-card summary {
+  color: var(--blue);
+  font-size: 0.8em;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.practice-card details p {
+  margin: 10px 0 2px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 0.88em;
+  line-height: 1.75;
+}
+
+.practice-card .answer-details {
+  background: var(--green-soft);
+}
+
+.practice-card .answer-details summary {
+  color: var(--green-dark);
+}
+
+.completion-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-top: 58px;
+  padding: 25px 28px;
+  background: var(--card);
+  border: 2px dashed #b8b09e;
+  border-radius: 15px;
+}
+
+.completion-card.is-complete {
+  background: var(--green-soft);
+  border-color: var(--green);
+  border-style: solid;
+}
+
+.completion-card > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.completion-check {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  color: var(--green);
+  border: 2px solid var(--green);
+  border-radius: 50%;
+  font-size: 1.5em;
+  font-weight: 900;
+}
+
+.is-complete .completion-check {
+  color: white;
+  background: var(--green);
+}
+
+.completion-card h2 {
+  margin: 0 0 5px;
+  font: 700 1.35em/1.2 "STKaiti", "KaiTi", serif;
+}
+
+.completion-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78em;
+}
+
+.completion-card button {
+  min-width: 130px;
+  min-height: 46px;
+  padding: 0 17px;
+  color: white;
+  background: var(--green);
+  border: 0;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.lesson-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.lesson-pager button {
+  display: grid;
+  gap: 5px;
+  min-height: 82px;
+  align-content: center;
+  padding: 13px 18px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.lesson-pager button:hover {
+  border-color: var(--green);
+}
+
+.lesson-pager button span {
+  color: var(--green);
+  font-size: 0.72em;
+}
+
+.lesson-pager button strong {
+  font-size: 0.88em;
+}
+
+.previous-lesson {
+  text-align: left;
+}
+
+.next-lesson {
+  text-align: right;
+}
+
+.loading-view {
+  display: grid;
+  min-height: 60vh;
+  place-items: center;
+  color: var(--green);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 42px 24px 342px;
+  color: #d4ded7;
+  background: var(--green-dark);
+  font-size: calc(12px * var(--font-scale));
+}
+
+footer p {
+  margin: 0;
+}
+
+.menu-backdrop {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .body-layout { grid-template-columns: 270px minmax(0, 1fr); }
+  .sidebar { width: 270px; }
+  .main-content { padding-inline: 34px; }
+  .welcome-card { padding: 48px 44px; }
+  .welcome-card h1 { font-size: 2.8em; }
+  .learning-steps,
+  .stage-grid { grid-template-columns: repeat(2, 1fr); }
+  footer { padding-left: 304px; }
+}
+
+@media (max-width: 780px) {
+  .topbar { height: 68px; padding: 0 14px; }
+  .brand-seal { width: 38px; height: 38px; font-size: 21px; }
+  .brand strong { font-size: 1em; }
+  .brand small { display: none; }
+  .menu-button { display: block; }
+  .print-button { display: none; }
+  .font-controls > span { display: none; }
+  .font-controls { padding-left: 6px; }
+  .body-layout { display: block; min-height: calc(100vh - 68px); }
+  .sidebar {
+    position: fixed;
+    z-index: 60;
+    top: 0;
+    left: 0;
+    width: min(88vw, 340px);
+    height: 100vh;
+    padding-top: 17px;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease;
+    box-shadow: 18px 0 45px rgba(40, 49, 40, 0.2);
+  }
+  .sidebar.menu-open { transform: translateX(0); }
+  .mobile-menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px;
+  }
+  .mobile-menu-head strong { font-family: "STKaiti", "KaiTi", serif; font-size: 1.2em; }
+  .mobile-menu-head button {
+    width: 38px;
+    height: 38px;
+    border: 0;
+    background: var(--card);
+    border-radius: 50%;
+    font-size: 1.4em;
+    cursor: pointer;
+  }
+  .menu-backdrop {
+    position: fixed;
+    z-index: 55;
+    inset: 0;
+    display: block;
+    border: 0;
+    background: rgba(30, 38, 32, 0.5);
+  }
+  .main-content { padding: 28px 18px 55px; }
+  .welcome-card {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 32px;
+    padding: 38px 26px;
+  }
+  .welcome-card h1 { font-size: 2.35em; }
+  .welcome-progress { grid-template-columns: auto auto; gap: 15px; justify-content: start; align-items: center; }
+  .progress-ring { width: 98px; height: 98px; }
+  .progress-ring > div { width: 78px; height: 78px; }
+  .progress-ring strong { font-size: 1.4em; }
+  .welcome-progress > p { margin: 0; }
+  .learning-steps,
+  .stage-grid { grid-template-columns: 1fr; }
+  .learning-steps li { display: grid; grid-template-columns: 45px 1fr; min-height: 0; gap: 10px; padding: 18px; }
+  .learning-steps li > span { margin: 0; }
+  .how-to,
+  .roadmap { padding-top: 48px; }
+  .reassurance { align-items: flex-start; padding: 22px 20px; }
+  .lesson-hero { grid-template-columns: 1fr; padding: 32px 26px; }
+  .lesson-mark { display: none; }
+  .lesson-hero h1 { font-size: 2em; }
+  .lesson-section { grid-template-columns: 1fr; gap: 12px; padding-top: 42px; }
+  .section-icon { width: 42px; height: 42px; border-radius: 11px; }
+  .lesson-section h2 { margin-top: 0; }
+  .question-line,
+  .worked-steps { padding-inline: 18px; }
+  .example-answer { margin-inline: 18px; }
+  .practice-card { padding: 18px; }
+  .practice-card details { margin-left: 0; }
+  .completion-card { align-items: stretch; flex-direction: column; }
+  .completion-card button { width: 100%; }
+  .lesson-pager { grid-template-columns: 1fr; }
+  footer { flex-direction: column; padding: 22px 18px; text-align: center; }
+}
+
+@media (max-width: 420px) {
+  .brand { gap: 7px; }
+  .brand-seal { width: 34px; height: 34px; }
+  .font-controls button { min-width: 30px; min-height: 30px; }
+  .topbar-actions { gap: 4px; }
+  .welcome-lead { font-size: 0.98em; }
+  .primary-button { width: 100%; justify-content: center; }
+  .reassurance > span { min-width: 44px; height: 44px; }
+  .idea-list li { padding-left: 42px; }
+  .practice-question { grid-template-columns: 30px 1fr; gap: 9px; }
+  .practice-question > span { width: 29px; height: 29px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  body { background: white; }
+  .topbar,
+  .sidebar,
+  .menu-backdrop,
+  .crumbs,
+  .completion-card,
+  .lesson-pager,
+  footer { display: none !important; }
+  .body-layout { display: block; }
+  .main-content { width: 100%; max-width: none; padding: 0; }
+  .lesson-hero,
+  .example-card,
+  .practice-card,
+  .idea-list li { break-inside: avoid; box-shadow: none; }
+  .practice-card details { display: none; }
+}

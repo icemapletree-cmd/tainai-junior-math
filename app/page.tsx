@@ -11,6 +11,22 @@ const STAGE_SHORT: Record<Unit["stage"], string> = {
   九年级: "九年级",
 };
 
+const EXAMPLE_ANGLES = [
+  { label: "先认清", note: "看懂它是什么、为什么" },
+  { label: "跟着算", note: "学会规范步骤" },
+  { label: "换情境", note: "把知识用到新问题" },
+  { label: "找易错", note: "分清哪里最容易错" },
+  { label: "倒着想", note: "从答案反查道理" },
+] as const;
+
+const PRACTICE_GOALS = [
+  { label: "会辨认", note: "先判断用哪个知识" },
+  { label: "会计算", note: "自己写出完整步骤" },
+  { label: "会应用", note: "换个说法也能做" },
+  { label: "会检查", note: "找错、验算或反着想" },
+  { label: "会综合", note: "把几个小知识连起来" },
+] as const;
+
 type LessonWithUnit = Lesson & { unit: Unit; number: number };
 
 function stageClass(stage: Unit["stage"]) {
@@ -50,6 +66,8 @@ function HomeView({
   onOpen: (id: string) => void;
 }) {
   const firstUnfinished = allLessons.find((lesson) => !completed.has(lesson.id));
+  const totalExamples = allLessons.reduce((sum, lesson) => sum + lesson.examples.length, 0);
+  const totalPractice = allLessons.reduce((sum, lesson) => sum + lesson.practice.length, 0);
 
   return (
     <main className="main-content" id="main-content">
@@ -72,7 +90,8 @@ function HomeView({
         <div className="welcome-progress">
           <ProgressRing done={completed.size} total={allLessons.length} />
           <p>
-            共 <strong>{allLessons.length}</strong> 小课
+            共 <strong>{allLessons.length}</strong> 小课<br />
+            {totalExamples} 道例题 · {totalPractice} 道练习
           </p>
         </div>
       </section>
@@ -113,11 +132,14 @@ function HomeView({
             const units = curriculum.filter((unit) => unit.stage === stage);
             const lessons = units.flatMap((unit) => unit.lessons);
             const done = lessons.filter((lesson) => completed.has(lesson.id)).length;
+            const examples = lessons.reduce((sum, lesson) => sum + lesson.examples.length, 0);
+            const practice = lessons.reduce((sum, lesson) => sum + lesson.practice.length, 0);
             return (
               <article className={`stage-card ${stageClass(stage)}`} key={stage}>
                 <div className="stage-number">第 {stageIndex + 1} 段</div>
                 <h3>{STAGE_SHORT[stage]}</h3>
                 <p>{units.length} 个单元 · {lessons.length} 小课</p>
+                <p className="stage-question-count">{examples} 道例题 · {practice} 道练习</p>
                 <div className="mini-progress" aria-label={`${stage}完成进度`}>
                   <span style={{ width: `${lessons.length ? (done / lessons.length) * 100 : 0}%` }} />
                 </div>
@@ -174,7 +196,12 @@ function LessonView({
           <div>
             <p className="lesson-label">第 {lesson.number} 课 · {lesson.unit.title}</p>
             <h1>{lesson.title}</h1>
-            <p>{lesson.intro}</p>
+            <p className="lesson-intro">{lesson.intro}</p>
+            <div className="lesson-counts" aria-label="本课内容数量">
+              <span>{lesson.ideas.length} 个知识点</span>
+              <span>{lesson.examples.length} 道例题</span>
+              <span>{lesson.practice.length} 道练习</span>
+            </div>
           </div>
           <div className="lesson-mark" aria-hidden="true">{lesson.number}</div>
         </header>
@@ -198,10 +225,17 @@ function LessonView({
           <div className="section-icon example-icon" aria-hidden="true">例</div>
           <div className="lesson-section-body">
             <h2 id="example-title">跟着例题学</h2>
+            <p className="section-guide">
+              不只记答案。下面会从不同角度讲同一个知识：先看懂，再会算，还要会换一种问法。
+            </p>
             {lesson.examples.map((example, exampleIndex) => (
               <div className="example-card" key={exampleIndex}>
                 <div className="question-line">
-                  <span>例题 {exampleIndex + 1}</span>
+                  <div className="learning-angle">
+                    <span>例题 {exampleIndex + 1}</span>
+                    <strong>{EXAMPLE_ANGLES[exampleIndex % EXAMPLE_ANGLES.length].label}</strong>
+                    <small>{EXAMPLE_ANGLES[exampleIndex % EXAMPLE_ANGLES.length].note}</small>
+                  </div>
                   <p>{example.question}</p>
                 </div>
                 <div className="worked-steps">
@@ -222,10 +256,14 @@ function LessonView({
           <div className="section-icon practice-icon" aria-hidden="true">练</div>
           <div className="lesson-section-body">
             <h2 id="practice-title">自己试一试</h2>
-            <p className="practice-note">拿纸和笔先算。做完后，再点开提示或答案。</p>
+            <p className="practice-note">四种小检查不求多，只求真的懂。拿纸和笔先做，完成后再点开提示或答案。</p>
             <div className="practice-list">
               {lesson.practice.map((item, index) => (
                 <article className="practice-card" key={index}>
+                  <div className="practice-goal">
+                    <strong>{PRACTICE_GOALS[index % PRACTICE_GOALS.length].label}</strong>
+                    <span>{PRACTICE_GOALS[index % PRACTICE_GOALS.length].note}</span>
+                  </div>
                   <div className="practice-question">
                     <span>{index + 1}</span>
                     <p>{item.question}</p>
@@ -244,12 +282,23 @@ function LessonView({
           </div>
         </section>
 
+        <section className="understanding-check" aria-labelledby="understanding-title">
+          <p className="section-kicker">真正学会的四个信号</p>
+          <h2 id="understanding-title">打勾以前，自己问一遍</h2>
+          <ul>
+            <li><span>1</span>不看书，也能用自己的话说出这个知识是什么意思。</li>
+            <li><span>2</span>遮住例题答案，能独立写出一道计算或推理的步骤。</li>
+            <li><span>3</span>题目的说法变了，仍能找出已知什么、要求什么。</li>
+            <li><span>4</span>算错以后，能指出错在哪一步，并重新检查一遍。</li>
+          </ul>
+        </section>
+
         <section className={`completion-card ${completed ? "is-complete" : ""}`}>
           <div>
             <span className="completion-check" aria-hidden="true">{completed ? "✓" : "○"}</span>
             <div>
               <h2>{completed ? "这一课学完啦！" : "这一课学明白了吗？"}</h2>
-              <p>{completed ? "小小的一步，也值得高兴。" : "例题抄过、练习做过，就可以打勾。"}</p>
+              <p>{completed ? "小小的一步，也值得高兴。" : "认、算、用、查四类练习都做过，就可以打勾。"}</p>
             </div>
           </div>
           <button onClick={onToggleComplete}>

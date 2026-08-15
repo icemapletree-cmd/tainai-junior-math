@@ -722,6 +722,12 @@ a:focus-visible {
   font-size: 0.76em;
 }
 
+.stage-card .stage-question-count {
+  margin-top: 5px;
+  color: #786f61;
+  font-weight: 700;
+}
+
 .mini-progress {
   height: 7px;
   margin: 24px 0 8px;
@@ -848,11 +854,28 @@ a:focus-visible {
   font: 700 2.55em/1.22 "STKaiti", "KaiTi", "Songti SC", serif;
 }
 
-.lesson-hero p:last-child {
+.lesson-hero .lesson-intro {
   max-width: 720px;
   margin: 15px 0 0;
   color: #4f5b50;
   line-height: 1.85;
+}
+
+.lesson-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 17px;
+}
+
+.lesson-counts span {
+  padding: 5px 10px;
+  color: var(--green-dark);
+  background: rgba(255, 253, 247, 0.78);
+  border: 1px solid rgba(40, 99, 79, 0.18);
+  border-radius: 999px;
+  font-size: 0.72em;
+  font-weight: 800;
 }
 
 .lesson-mark {
@@ -950,21 +973,49 @@ a:focus-visible {
   box-shadow: 0 8px 24px rgba(66, 58, 38, 0.055);
 }
 
+.section-guide {
+  margin: -11px 0 20px;
+  color: var(--muted);
+  font-size: 0.86em;
+  line-height: 1.75;
+}
+
 .question-line {
   padding: 20px 24px;
   background: #f7eee6;
   border-bottom: 1px solid #ead9cc;
 }
 
-.question-line > span {
+.learning-angle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+
+.learning-angle > span,
+.learning-angle > strong {
   display: inline-block;
-  margin-bottom: 8px;
   padding: 4px 9px;
-  color: #8f4925;
-  background: var(--orange-soft);
   border-radius: 999px;
   font-size: 0.7em;
   font-weight: 800;
+}
+
+.learning-angle > span {
+  color: #8f4925;
+  background: var(--orange-soft);
+}
+
+.learning-angle > strong {
+  color: #fffdf7;
+  background: #9c5a34;
+}
+
+.learning-angle > small {
+  color: #7b6759;
+  font-size: 0.7em;
 }
 
 .question-line p {
@@ -1042,6 +1093,23 @@ a:focus-visible {
   border-radius: 13px;
 }
 
+.practice-goal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 13px 46px;
+  color: var(--muted);
+  font-size: 0.74em;
+}
+
+.practice-goal strong {
+  padding: 4px 9px;
+  color: #fff;
+  background: var(--blue);
+  border-radius: 999px;
+}
+
 .practice-question {
   display: grid;
   grid-template-columns: 34px 1fr;
@@ -1094,6 +1162,51 @@ a:focus-visible {
 
 .practice-card .answer-details summary {
   color: var(--green-dark);
+}
+
+.understanding-check {
+  margin: 54px 0 0 78px;
+  padding: 25px 28px 27px;
+  background: #f8f1df;
+  border: 1px solid #e2d3ac;
+  border-radius: 15px;
+}
+
+.understanding-check h2 {
+  margin: 5px 0 18px;
+  font: 700 1.42em/1.3 "STKaiti", "KaiTi", "Songti SC", serif;
+}
+
+.understanding-check ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.understanding-check li {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 13px 14px;
+  background: rgba(255, 253, 247, 0.82);
+  border-radius: 10px;
+  line-height: 1.72;
+}
+
+.understanding-check li span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--green-dark);
+  background: var(--green-soft);
+  border-radius: 50%;
+  font-size: 0.75em;
+  font-weight: 800;
 }
 
 .completion-card {
@@ -1313,7 +1426,10 @@ footer p {
   .worked-steps { padding-inline: 18px; }
   .example-answer { margin-inline: 18px; }
   .practice-card { padding: 18px; }
+  .practice-goal { margin-left: 0; }
   .practice-card details { margin-left: 0; }
+  .understanding-check { margin-left: 0; padding: 22px 19px; }
+  .understanding-check ul { grid-template-columns: 1fr; }
   .completion-card { align-items: stretch; flex-direction: column; }
   .completion-card button { width: 100%; }
   .lesson-pager { grid-template-columns: 1fr; }

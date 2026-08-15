@@ -58,7 +58,7 @@ function HomeView({
           <p className="eyebrow">从不识字母，也能慢慢学会</p>
           <h1>小包子学数学</h1>
           <p className="welcome-lead">
-            奶奶，数学不是比谁学得快。每天学一小课，拿纸和笔跟着算，学会一点就是一点。
+            小包子，数学不是比谁学得快。每天学一小课，拿纸和笔跟着算，学会一点就是一点。
           </p>
           <button
             className="primary-button"

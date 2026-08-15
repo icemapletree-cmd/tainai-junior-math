@@ -25,6 +25,8 @@ test("server-renders the finished Chinese mathematics course", async () => {
   assert.match(html, /<html[^>]*lang="zh-CN"/i);
   assert.match(html, /<title>小包子学数学｜零基础初中数学课程<\/title>/i);
   assert.match(html, /小包子学数学/);
+  assert.match(html, /小包子，数学不是比谁学得快/);
+  assert.doesNotMatch(html, /奶奶/);
   assert.match(html, /从第一课开始/);
   assert.match(html, /一课只做四件事/);
   assert.match(html, /启蒙补基础/);

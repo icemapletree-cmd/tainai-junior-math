@@ -33,18 +33,20 @@ test("server-renders the finished Chinese mathematics course", async () => {
   assert.match(html, /七年级/);
   assert.match(html, /八年级/);
   assert.match(html, /九年级/);
-  assert.match(html, /http:\/\/localhost(?::3000)?\/og\.png/);
+  assert.match(html, /http:\/\/localhost(?::3000)?\/og-visual-math\.png/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });
 
 test("includes the full curriculum and removes disposable starter files", async () => {
-  const [page, layout, packageJson, foundation, grade8, grade9] = await Promise.all([
+  const [page, layout, packageJson, foundation, grade8, grade9, mathVisual, visualIndex] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../app/curriculum/foundation-grade7.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/curriculum/grade8.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/curriculum/grade9.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/math-visual.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/visuals/index.ts", import.meta.url), "utf8"),
   ]);
   const curriculum = `${foundation}\n${grade8}\n${grade9}`;
   const lessonCount = curriculum.match(/^\s{8}id:\s*"/gm)?.length ?? 0;
@@ -61,11 +63,20 @@ test("includes the full curriculum and removes disposable starter files", async 
   assert.match(page, /EXAMPLE_ANGLES/);
   assert.match(page, /PRACTICE_GOALS/);
   assert.match(page, /真正学会的四个信号/);
+  assert.match(page, /MathVisual/);
+  assert.match(page, /播放动画/);
+  assert.match(page, /先看完整图/);
+  assert.match(mathVisual, /canvas/);
+  assert.match(mathVisual, /prefers-reduced-motion/);
+  assert.match(mathVisual, /暂停动画/);
+  assert.match(visualIndex, /grade7Visuals/);
+  assert.match(visualIndex, /grade8Visuals/);
+  assert.match(visualIndex, /grade9Visuals/);
   assert.match(layout, /generateMetadata/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(`${page}\n${layout}`, /codex-preview|_sites-preview/);
 
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
   await assert.rejects(access(new URL("../app/_sites-preview/preview.css", import.meta.url)));
-  await access(new URL("public/og.png", templateRoot));
+  await access(new URL("public/og-visual-math.png", templateRoot));
 });

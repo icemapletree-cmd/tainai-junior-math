@@ -1,0 +1,28 @@
+export type VisualKind =
+  | "number-line"
+  | "operation"
+  | "algebra-tiles"
+  | "balance"
+  | "geometry-basics"
+  | "parallel-lines"
+  | "triangle"
+  | "congruence"
+  | "symmetry"
+  | "right-triangle"
+  | "quadrilateral"
+  | "coordinate"
+  | "linear-graph"
+  | "function-machine"
+  | "data-chart"
+  | "roots"
+  | "quadratic"
+  | "rotation"
+  | "circle"
+  | "probability"
+  | "inverse-graph"
+  | "similarity"
+  | "trigonometry"
+  | "solid-view"
+  | "review";
+
+export type LessonVisualMap = Record<string, VisualKind>;

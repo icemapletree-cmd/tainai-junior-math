@@ -58,6 +58,9 @@ test("includes the full curriculum and removes disposable starter files", async 
   assert.match(curriculum, /锐角三角函数/);
   assert.match(page, /math-completed-lessons/);
   assert.match(page, /想不出来？看小提示/);
+  assert.match(page, /EXAMPLE_ANGLES/);
+  assert.match(page, /PRACTICE_GOALS/);
+  assert.match(page, /真正学会的四个信号/);
   assert.match(layout, /generateMetadata/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(`${page}\n${layout}`, /codex-preview|_sites-preview/);

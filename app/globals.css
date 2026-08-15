@@ -728,6 +728,12 @@ a:focus-visible {
   font-weight: 700;
 }
 
+.stage-card .stage-visual-count {
+  margin-top: 5px;
+  color: var(--green);
+  font-weight: 800;
+}
+
 .mini-progress {
   height: 7px;
   margin: 24px 0 8px;
@@ -878,6 +884,42 @@ a:focus-visible {
   font-weight: 800;
 }
 
+.visual-help {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 17px 20px;
+  color: #3e5148;
+  background: #edf5ef;
+  border: 1px solid #c8ddce;
+  border-radius: 14px;
+}
+
+.visual-help > span {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #fff;
+  background: var(--green);
+  border-radius: 50%;
+  font: 700 1em/1 "STKaiti", "KaiTi", serif;
+}
+
+.visual-help strong {
+  display: block;
+  font-size: 0.9em;
+}
+
+.visual-help p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.78em;
+  line-height: 1.65;
+}
+
 .lesson-mark {
   display: grid;
   width: 92px;
@@ -945,6 +987,10 @@ a:focus-visible {
   line-height: 1.85;
 }
 
+.idea-list li > p {
+  margin: 0;
+}
+
 .idea-list li::before {
   position: absolute;
   left: 18px;
@@ -962,6 +1008,118 @@ a:focus-visible {
   border-left: 4px solid #d9b94d;
   border-radius: 5px 10px 10px 5px;
   line-height: 1.75;
+}
+
+.math-visual {
+  margin: 16px 0 3px;
+  overflow: hidden;
+  background: #fffdf7;
+  border: 1px solid #d9d2c4;
+  border-radius: 13px;
+  box-shadow: 0 7px 18px rgba(55, 72, 63, 0.055);
+}
+
+.example-visual {
+  margin: 18px 24px 4px;
+}
+
+.math-visual-canvas-wrap {
+  position: relative;
+  min-height: 220px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(255, 253, 247, 0.86), rgba(255, 253, 247, 0.86)),
+    repeating-linear-gradient(0deg, transparent 0 27px, rgba(68, 117, 96, 0.08) 27px 28px),
+    repeating-linear-gradient(90deg, transparent 0 27px, rgba(68, 117, 96, 0.08) 27px 28px);
+}
+
+.math-visual canvas {
+  display: block;
+  width: 100%;
+  height: 220px;
+}
+
+.visual-type {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 11px;
+  padding: 4px 9px;
+  color: #fff;
+  background: rgba(47, 115, 91, 0.92);
+  border-radius: 999px;
+  font-size: 0.66em;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+.example-visual .visual-type {
+  background: rgba(156, 90, 52, 0.94);
+}
+
+.math-visual figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 14px 12px 17px;
+  border-top: 1px solid #e5ded0;
+  background: #faf6ec;
+}
+
+.math-visual figcaption > div {
+  min-width: 0;
+}
+
+.math-visual figcaption strong,
+.math-visual figcaption span {
+  display: block;
+}
+
+.math-visual figcaption strong {
+  color: var(--green-dark);
+  font-size: 0.82em;
+}
+
+.math-visual figcaption > div > span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.72em;
+  line-height: 1.55;
+}
+
+.math-visual figcaption button {
+  display: inline-flex;
+  min-width: 108px;
+  min-height: 39px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 12px;
+  color: #fff;
+  background: var(--green);
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.72em;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.example-visual figcaption button {
+  background: #9c5a34;
+}
+
+.math-visual figcaption button:hover {
+  filter: brightness(0.94);
+}
+
+.math-visual figcaption button:disabled {
+  min-width: 155px;
+  color: #667169;
+  background: #dfe5df;
+  cursor: default;
 }
 
 .example-card {
@@ -1424,7 +1582,13 @@ footer p {
   .lesson-section h2 { margin-top: 0; }
   .question-line,
   .worked-steps { padding-inline: 18px; }
+  .example-visual { margin-inline: 18px; }
   .example-answer { margin-inline: 18px; }
+  .math-visual-canvas-wrap,
+  .math-visual canvas { min-height: 195px; height: 195px; }
+  .math-visual figcaption { align-items: stretch; flex-direction: column; }
+  .math-visual figcaption button { width: 100%; }
+  .visual-help { align-items: flex-start; padding: 16px; }
   .practice-card { padding: 18px; }
   .practice-goal { margin-left: 0; }
   .practice-card details { margin-left: 0; }
@@ -1447,6 +1611,8 @@ footer p {
   .idea-list li { padding-left: 42px; }
   .practice-question { grid-template-columns: 30px 1fr; gap: 9px; }
   .practice-question > span { width: 29px; height: 29px; }
+  .math-visual-canvas-wrap,
+  .math-visual canvas { min-height: 185px; height: 185px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1473,5 +1639,6 @@ footer p {
   .example-card,
   .practice-card,
   .idea-list li { break-inside: avoid; box-shadow: none; }
+  .math-visual figcaption button { display: none; }
   .practice-card details { display: none; }
 }

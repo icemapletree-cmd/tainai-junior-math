@@ -40,7 +40,7 @@ const html = await response.text();
 if (!html.includes(`${basePath}/_next/`)) {
   throw new Error("Static HTML is missing the GitHub Pages asset prefix");
 }
-if (!html.includes(`${basePath}/og.png`)) {
+if (!html.includes(`${basePath}/og-visual-math.png`)) {
   throw new Error("Static HTML is missing the GitHub Pages social image path");
 }
 

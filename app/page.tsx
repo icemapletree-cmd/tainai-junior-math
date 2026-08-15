@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { MathVisual } from "./components/math-visual";
 import { curriculum, type Lesson, type Unit } from "./curriculum";
+import { lessonVisuals } from "./visuals";
 
 const STAGES: Unit["stage"][] = ["启蒙补基础", "七年级", "八年级", "九年级"];
 const STAGE_SHORT: Record<Unit["stage"], string> = {
@@ -68,6 +70,9 @@ function HomeView({
   const firstUnfinished = allLessons.find((lesson) => !completed.has(lesson.id));
   const totalExamples = allLessons.reduce((sum, lesson) => sum + lesson.examples.length, 0);
   const totalPractice = allLessons.reduce((sum, lesson) => sum + lesson.practice.length, 0);
+  const totalVisuals = allLessons
+    .filter((lesson) => lesson.unit.stage !== "启蒙补基础")
+    .reduce((sum, lesson) => sum + lesson.ideas.length + lesson.examples.length, 0);
 
   return (
     <main className="main-content" id="main-content">
@@ -91,7 +96,8 @@ function HomeView({
           <ProgressRing done={completed.size} total={allLessons.length} />
           <p>
             共 <strong>{allLessons.length}</strong> 小课<br />
-            {totalExamples} 道例题 · {totalPractice} 道练习
+            {totalExamples} 道例题 · {totalPractice} 道练习<br />
+            {totalVisuals} 幅知识图与动画
           </p>
         </div>
       </section>
@@ -104,19 +110,19 @@ function HomeView({
         <ol className="learning-steps">
           <li>
             <span>1</span>
-            <div><strong>读一读</strong><p>慢慢读“这是什么”，不认识的词多读两遍。</p></div>
+            <div><strong>看一看</strong><p>先看完整图，再点“播放动画”，看它慢慢变化。</p></div>
           </li>
           <li>
             <span>2</span>
-            <div><strong>抄一抄</strong><p>把例题抄在本子上，照着步骤亲手算一遍。</p></div>
+            <div><strong>读一读</strong><p>对着图慢慢读知识点，不认识的词多读两遍。</p></div>
           </li>
           <li>
             <span>3</span>
-            <div><strong>做一做</strong><p>先自己做练习，想不出时再看小提示。</p></div>
+            <div><strong>跟一跟</strong><p>把例题抄在本子上，对着图和步骤亲手算一遍。</p></div>
           </li>
           <li>
             <span>4</span>
-            <div><strong>歇一歇</strong><p>对完答案就打勾。一天一课已经很棒。</p></div>
+            <div><strong>做一做</strong><p>自己做四类练习，对完答案就歇一歇。</p></div>
           </li>
         </ol>
       </section>
@@ -134,12 +140,16 @@ function HomeView({
             const done = lessons.filter((lesson) => completed.has(lesson.id)).length;
             const examples = lessons.reduce((sum, lesson) => sum + lesson.examples.length, 0);
             const practice = lessons.reduce((sum, lesson) => sum + lesson.practice.length, 0);
+            const visuals = stage === "启蒙补基础"
+              ? 0
+              : lessons.reduce((sum, lesson) => sum + lesson.ideas.length + lesson.examples.length, 0);
             return (
               <article className={`stage-card ${stageClass(stage)}`} key={stage}>
                 <div className="stage-number">第 {stageIndex + 1} 段</div>
                 <h3>{STAGE_SHORT[stage]}</h3>
                 <p>{units.length} 个单元 · {lessons.length} 小课</p>
                 <p className="stage-question-count">{examples} 道例题 · {practice} 道练习</p>
+                {visuals > 0 && <p className="stage-visual-count">{visuals} 幅知识图与动画</p>}
                 <div className="mini-progress" aria-label={`${stage}完成进度`}>
                   <span style={{ width: `${lessons.length ? (done / lessons.length) * 100 : 0}%` }} />
                 </div>
@@ -180,6 +190,8 @@ function LessonView({
   const position = allLessons.findIndex((item) => item.id === lesson.id);
   const previous = position > 0 ? allLessons[position - 1] : undefined;
   const next = position < allLessons.length - 1 ? allLessons[position + 1] : undefined;
+  const visualKind = lessonVisuals[lesson.id];
+  const hasVisuals = lesson.unit.stage !== "启蒙补基础" && Boolean(visualKind);
 
   return (
     <main className="main-content lesson-page" id="main-content">
@@ -201,17 +213,35 @@ function LessonView({
               <span>{lesson.ideas.length} 个知识点</span>
               <span>{lesson.examples.length} 道例题</span>
               <span>{lesson.practice.length} 道练习</span>
+              {hasVisuals && <span>{lesson.ideas.length + lesson.examples.length} 幅动态图</span>}
             </div>
           </div>
           <div className="lesson-mark" aria-hidden="true">{lesson.number}</div>
         </header>
+
+        {hasVisuals && (
+          <aside className="visual-help" aria-label="动态图使用方法">
+            <span aria-hidden="true">动</span>
+            <div>
+              <strong>先看完整图，再点“播放动画”</strong>
+              <p>动画会慢慢走一遍。看累了可以随时暂停；没看清就重新播放，不用赶。</p>
+            </div>
+          </aside>
+        )}
 
         <section className="lesson-section idea-section" aria-labelledby="ideas-title">
           <div className="section-icon" aria-hidden="true">灯</div>
           <div className="lesson-section-body">
             <h2 id="ideas-title">先弄明白</h2>
             <ul className="idea-list">
-              {lesson.ideas.map((idea, index) => <li key={index}>{idea}</li>)}
+              {lesson.ideas.map((idea, index) => (
+                <li key={index}>
+                  <p>{idea}</p>
+                  {hasVisuals && visualKind && (
+                    <MathVisual kind={visualKind} itemIndex={index} mode="idea" text={idea} />
+                  )}
+                </li>
+              ))}
             </ul>
             {lesson.tip && (
               <aside className="tip-box">
@@ -238,6 +268,14 @@ function LessonView({
                   </div>
                   <p>{example.question}</p>
                 </div>
+                {hasVisuals && visualKind && (
+                  <MathVisual
+                    kind={visualKind}
+                    itemIndex={exampleIndex}
+                    mode="example"
+                    text={example.question}
+                  />
+                )}
                 <div className="worked-steps">
                   <p className="small-label">一步一步来</p>
                   <ol>

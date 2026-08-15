@@ -32,10 +32,27 @@ const [foundationAndGrade7, grade8, grade9] = await Promise.all([
   loadUnits("app/curriculum/grade9.ts", "grade9Units"),
 ]);
 
+const [grade7Visuals, grade8Visuals, grade9Visuals] = await Promise.all([
+  loadUnits("app/visuals/grade7-visuals.ts", "grade7Visuals"),
+  loadUnits("app/visuals/grade8-visuals.ts", "grade8Visuals"),
+  loadUnits("app/visuals/grade9-visuals.ts", "grade9Visuals"),
+]);
+
 const allUnits = [...foundationAndGrade7, ...grade8, ...grade9];
 const gradedUnits = allUnits.filter((unit) =>
   ["七年级", "八年级", "九年级"].includes(unit.stage),
 );
+const visualMap = { ...grade7Visuals, ...grade8Visuals, ...grade9Visuals };
+const gradedLessons = gradedUnits.flatMap((unit) => unit.lessons);
+const gradedLessonIds = new Set(gradedLessons.map((lesson) => lesson.id));
+
+assert.equal(Object.keys(visualMap).length, gradedLessonIds.size, "七至九年级视觉映射数量不完整");
+for (const lesson of gradedLessons) {
+  assert.ok(visualMap[lesson.id], `${lesson.id} 缺少对应的知识图与动画类型`);
+}
+for (const lessonId of Object.keys(visualMap)) {
+  assert.ok(gradedLessonIds.has(lessonId), `${lessonId} 是多余的视觉映射`);
+}
 
 for (const unit of gradedUnits) {
   for (const lesson of unit.lessons) {
@@ -88,6 +105,8 @@ for (const stage of ["七年级", "八年级", "九年级"]) {
 const allLessons = allUnits.flatMap((unit) => unit.lessons);
 const allExamples = allLessons.reduce((sum, lesson) => sum + lesson.examples.length, 0);
 const allPractice = allLessons.reduce((sum, lesson) => sum + lesson.practice.length, 0);
+const allVisuals = gradedLessons.reduce((sum, lesson) => sum + lesson.ideas.length + lesson.examples.length, 0);
 process.stdout.write(`全课程：${allUnits.length} 单元，${allLessons.length} 课，${allExamples} 道例题，${allPractice} 道练习\n`);
+process.stdout.write(`七至九年级：${allVisuals} 幅知识图与可播放动画，覆盖每条知识点和每道例题\n`);
 
 process.stdout.write("课程内容审查通过：每课均有多角度例题与四类验证练习。\n");
